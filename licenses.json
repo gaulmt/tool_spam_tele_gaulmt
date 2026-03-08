@@ -3,7 +3,9 @@
     "user_id": "gaulmt",
     "expire_date": "2026-04-07",
     "created_date": "2026-03-08 17:26:03",
-    "last_check": null,
-    "months": 1
+    "last_check": "2026-03-08 17:26:12",
+    "months": 1,
+    "hardware_id": "279874373559423",
+    "first_activation": "2026-03-08 17:26:12"
   }
 }
