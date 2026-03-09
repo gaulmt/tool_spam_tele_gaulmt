@@ -12,7 +12,9 @@
     "user_id": "ban_cuoi_dua_them_50k",
     "expire_date": "2026-04-08",
     "created_date": "2026-03-09 05:46:02",
-    "last_check": null,
-    "months": 1
+    "last_check": "2026-03-09 07:53:02",
+    "months": 1,
+    "hardware_id": "408A8900-A494-11EE-8DEB-9EE302D17400",
+    "first_activation": "2026-03-09 07:53:02"
   }
 }
