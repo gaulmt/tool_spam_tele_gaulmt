@@ -5,8 +5,8 @@
     "created_date": "2026-03-08 17:26:03",
     "last_check": "2026-03-08 17:26:12",
     "months": 1,
-    "hardware_id": "279874373559423",
-    "first_activation": "2026-03-08 17:26:12"
+    "hardware_id": null,
+    "first_activation": null
   },
   "ban_cuoi_dua_them_50k_80d5492ac8cd7cff": {
     "user_id": "ban_cuoi_dua_them_50k",
