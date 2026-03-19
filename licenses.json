@@ -25,5 +25,12 @@
     "months": 1,
     "hardware_id": "3951ED10-F633-2FF5-9A44-7C10C9BCA980",
     "first_activation": "2026-03-12 02:04:15"
+  },
+  "test_1141022f8e7c0141": {
+    "user_id": "test",
+    "expire_date": "2026-04-18",
+    "created_date": "2026-03-19 08:27:41",
+    "last_check": null,
+    "months": 1
   }
 }
