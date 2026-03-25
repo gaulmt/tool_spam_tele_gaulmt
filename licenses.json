@@ -1,1 +1,38 @@
-{}
+{
+  "gaulmt_2b64d35f5c57bb53": {
+    "user_id": "gaulmt",
+    "expire_date": "2026-04-07",
+    "created_date": "2026-03-08 17:26:03",
+    "last_check": "2026-03-08 17:26:12",
+    "months": 1,
+    "hardware_id": null,
+    "first_activation": null
+  },
+  "ban_cuoi_dua_them_50k_80d5492ac8cd7cff": {
+    "user_id": "ban_cuoi_dua_them_50k",
+    "expire_date": "2026-04-08",
+    "created_date": "2026-03-09 05:46:02",
+    "last_check": "2026-03-09 07:53:02",
+    "months": 1,
+    "hardware_id": "408A8900-A494-11EE-8DEB-9EE302D17400",
+    "first_activation": "2026-03-09 07:53:02"
+  },
+  "vct_29e488e5e12e80e5": {
+    "user_id": "vct",
+    "expire_date": "2026-04-11",
+    "created_date": "2026-03-12 01:24:26",
+    "last_check": "2026-03-12 02:04:15",
+    "months": 1,
+    "hardware_id": "3951ED10-F633-2FF5-9A44-7C10C9BCA980",
+    "first_activation": "2026-03-12 02:04:15"
+  },
+  "test_1141022f8e7c0141": {
+    "user_id": "test",
+    "expire_date": "2026-04-18",
+    "created_date": "2026-03-19 08:27:41",
+    "last_check": "2026-03-25 15:15:10",
+    "months": 1,
+    "hardware_id": "4FB084A9-15CB-11F0-A4F8-40C2BAB04382",
+    "first_activation": "2026-03-25 15:15:10"
+  }
+}
