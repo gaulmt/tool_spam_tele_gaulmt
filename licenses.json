@@ -33,6 +33,7 @@
     "last_check": "2026-03-25 15:15:10",
     "months": 1,
     "hardware_id": "4FB084A9-15CB-11F0-A4F8-40C2BAB04382",
-    "first_activation": "2026-03-25 15:15:10"
+    "first_activation": "2026-03-25 15:15:10",
+    "status": "revoked"
   }
 }
