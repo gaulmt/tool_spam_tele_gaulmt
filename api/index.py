@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)  # Cho phép gọi API từ admin.html local (Cross-Origin)
 
 # Secret key
-SECRET_KEY = "GDZ8PaKHoYtqEzXxLl1krTM0sh7yWAQu3FIVOCd2"
+SECRET_KEY = "gaulmt-admin-2024"
 
 # GitHub config (set trong Vercel Environment Variables)
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
