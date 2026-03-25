@@ -30,9 +30,9 @@
     "user_id": "test",
     "expire_date": "2026-04-18",
     "created_date": "2026-03-19 08:27:41",
-    "last_check": "2026-03-19 08:27:49",
+    "last_check": "2026-03-25 15:15:10",
     "months": 1,
-    "hardware_id": null,
-    "first_activation": null
+    "hardware_id": "4FB084A9-15CB-11F0-A4F8-40C2BAB04382",
+    "first_activation": "2026-03-25 15:15:10"
   }
 }
