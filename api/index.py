@@ -4,6 +4,7 @@ Lưu licenses.json trực tiếp trên GitHub repo - không cần database ngoà
 """
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from datetime import datetime, timedelta
 import urllib.request
 import base64
@@ -12,6 +13,7 @@ import json
 import os
 
 app = Flask(__name__)
+CORS(app)  # Cho phép gọi API từ admin.html local (Cross-Origin)
 
 # Secret key
 SECRET_KEY = "GDZ8PaKHoYtqEzXxLl1krTM0sh7yWAQu3FIVOCd2"
@@ -182,6 +184,8 @@ def admin_create_license():
 
         user_id = data.get("user_id", "USER001")
         months = int(data.get("months", 1))
+        plan = data.get("plan", "basic")
+        notes = data.get("notes", "")
 
         license_key, expire_date = generate_license_key(user_id, months)
 
@@ -191,7 +195,11 @@ def admin_create_license():
             "expire_date": expire_date,
             "created_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "last_check": None,
-            "months": months
+            "months": months,
+            "plan": plan,
+            "status": "active",
+            "check_count": 0,
+            "notes": notes
         }
 
         if save_licenses(licenses, sha):
@@ -228,10 +236,15 @@ def admin_list_licenses():
                 "user_id": info["user_id"],
                 "expire_date": info["expire_date"],
                 "days_left": days_left,
-                "is_valid": days_left >= 0,
+                "is_valid": days_left >= 0 and info.get("status") != "revoked",
                 "last_check": info.get("last_check", "Chưa dùng"),
                 "hardware_id": info.get("hardware_id", "Chưa kích hoạt"),
-                "first_activation": info.get("first_activation", "Chưa kích hoạt")
+                "first_activation": info.get("first_activation", "Chưa kích hoạt"),
+                "plan": info.get("plan", "basic"),
+                "status": info.get("status", "active"),
+                "months": info.get("months", 1),
+                "notes": info.get("notes", ""),
+                "check_count": info.get("check_count", 0)
             })
 
         return jsonify({"success": True, "total": len(result), "licenses": result})
@@ -329,6 +342,124 @@ def admin_delete_license():
             return jsonify({"success": True, "message": f"Đã xóa license: {license_key}"})
         else:
             return jsonify({"success": False, "message": "Không thể lưu lên GitHub!"})
+
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Lỗi: {str(e)}"})
+
+
+@app.route("/admin/revoke", methods=["POST"])
+def admin_revoke_license():
+    """Vô hiệu hóa license (không xóa)"""
+    try:
+        data = request.get_json()
+        if data.get("admin_key", "") != SECRET_KEY:
+            return jsonify({"success": False, "message": "Admin key không hợp lệ!"})
+
+        license_key = data.get("license_key", "").strip()
+        if not license_key:
+            return jsonify({"success": False, "message": "License key không được để trống!"})
+
+        licenses, sha = load_licenses()
+        if license_key not in licenses:
+            return jsonify({"success": False, "message": "License key không tồn tại!"})
+
+        licenses[license_key]["status"] = "revoked"
+
+        if save_licenses(licenses, sha):
+            return jsonify({"success": True, "message": f"Đã vô hiệu hóa: {license_key}"})
+        else:
+            return jsonify({"success": False, "message": "Không thể lưu lên GitHub!"})
+
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Lỗi: {str(e)}"})
+
+
+@app.route("/admin/bulk_create", methods=["POST"])
+def admin_bulk_create():
+    """Tạo nhiều license cùng lúc"""
+    try:
+        data = request.get_json()
+        if data.get("admin_key", "") != SECRET_KEY:
+            return jsonify({"success": False, "message": "Admin key không hợp lệ!"})
+
+        count = min(int(data.get("count", 5)), 50)
+        plan = data.get("plan", "basic")
+        months = int(data.get("months", 1))
+
+        licenses, sha = load_licenses()
+        created_keys = []
+
+        for i in range(count):
+            user_id = f"BULK_{plan.upper()}_{i+1}"
+            license_key, expire_date = generate_license_key(user_id, months)
+            licenses[license_key] = {
+                "user_id": user_id,
+                "expire_date": expire_date,
+                "created_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "last_check": None,
+                "months": months,
+                "plan": plan,
+                "status": "active",
+                "check_count": 0,
+                "notes": f"Bulk create ({count} keys)"
+            }
+            created_keys.append(license_key)
+
+        if save_licenses(licenses, sha):
+            return jsonify({
+                "success": True,
+                "message": f"Đã tạo {count} license keys",
+                "keys": created_keys,
+                "count": count
+            })
+        else:
+            return jsonify({"success": False, "message": "Không thể lưu lên GitHub!"})
+
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Lỗi: {str(e)}"})
+
+
+@app.route("/admin/stats", methods=["POST"])
+def admin_stats():
+    """Thống kê tổng quan"""
+    try:
+        data = request.get_json()
+        if data.get("admin_key", "") != SECRET_KEY:
+            return jsonify({"success": False, "message": "Admin key không hợp lệ!"})
+
+        licenses, _ = load_licenses()
+        
+        total = len(licenses)
+        active = 0
+        expired = 0
+        pending = 0
+        revoked = 0
+
+        for key, info in licenses.items():
+            if info.get("status") == "revoked":
+                revoked += 1
+                continue
+            
+            expire_date = datetime.strptime(info["expire_date"], "%Y-%m-%d")
+            days_left = (expire_date - datetime.now()).days
+            
+            if days_left < 0:
+                expired += 1
+            elif info.get("hardware_id") is None:
+                pending += 1
+            else:
+                active += 1
+
+        return jsonify({
+            "success": True,
+            "stats": {
+                "total": total,
+                "active": active,
+                "expired": expired,
+                "pending": pending,
+                "revoked": revoked
+            }
+        })
 
     except Exception as e:
         return jsonify({"success": False, "message": f"Lỗi: {str(e)}"})
