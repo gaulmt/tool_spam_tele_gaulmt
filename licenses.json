@@ -40,11 +40,13 @@
     "user_id": "vĩnh viễn",
     "expire_date": "2108-04-15",
     "created_date": "2026-03-26 03:37:42",
-    "last_check": null,
+    "last_check": "2026-03-26 03:38:37",
     "months": 999,
     "plan": "basic",
     "status": "active",
     "check_count": 0,
-    "notes": "vĩnh viễn"
+    "notes": "vĩnh viễn",
+    "hardware_id": "408A8900-A494-11EE-8DEB-9EE302D17400",
+    "first_activation": "2026-03-26 03:38:37"
   }
 }
