@@ -15,7 +15,8 @@
     "last_check": "2026-03-09 07:53:02",
     "months": 1,
     "hardware_id": "408A8900-A494-11EE-8DEB-9EE302D17400",
-    "first_activation": "2026-03-09 07:53:02"
+    "first_activation": "2026-03-09 07:53:02",
+    "status": "revoked"
   },
   "vct_29e488e5e12e80e5": {
     "user_id": "vct",
