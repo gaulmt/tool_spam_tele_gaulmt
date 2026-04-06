@@ -64,5 +64,16 @@
     "notes": "gaulmt",
     "hardware_id": "4FB084A9-15CB-11F0-A4F8-40C2BAB04382",
     "first_activation": "2026-04-06 13:03:59"
+  },
+  "meomeo_24163970ecce90c8": {
+    "user_id": "meomeo",
+    "expire_date": "2108-04-26",
+    "created_date": "2026-04-06 13:04:22",
+    "last_check": null,
+    "months": 999,
+    "plan": "basic",
+    "status": "active",
+    "check_count": 0,
+    "notes": "meomeo"
   }
 }
