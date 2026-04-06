@@ -6,7 +6,8 @@
     "last_check": "2026-03-08 17:26:12",
     "months": 1,
     "hardware_id": null,
-    "first_activation": null
+    "first_activation": null,
+    "status": "revoked"
   },
   "ban_cuoi_dua_them_50k_80d5492ac8cd7cff": {
     "user_id": "ban_cuoi_dua_them_50k",
