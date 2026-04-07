@@ -116,5 +116,16 @@
     "notes": "áds",
     "hardware_id": "4FB084A9-15CB-11F0-A4F8-40C2BAB04382",
     "first_activation": "2026-04-07 19:14:17"
+  },
+  "key_lỏ_12f5e877919db01f": {
+    "user_id": "key_lỏ",
+    "expire_date": "2026-05-07",
+    "created_date": "2026-04-07 19:30:17",
+    "last_check": null,
+    "months": 1,
+    "plan": "basic",
+    "status": "active",
+    "check_count": 0,
+    "notes": "key_lỏ"
   }
 }
