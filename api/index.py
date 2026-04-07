@@ -131,6 +131,9 @@ def verify_license():
         license_info = licenses[license_key]
         need_save = False
 
+        if license_info.get("status") == "revoked":
+            return jsonify({"valid": False, "message": "License key đã bị thu hồi bởi Admin!"})
+
         # Kiểm tra Hardware ID binding
         stored_hwid = license_info.get("hardware_id", None)
 
@@ -167,7 +170,9 @@ def verify_license():
             "message": f"License hợp lệ. Còn {days_left} ngày.",
             "days_left": days_left,
             "expire_date": license_info["expire_date"],
-            "user_id": license_info["user_id"]
+            "user_id": license_info["user_id"],
+            "plan": "lifetime" if license_info.get("months", 1) >= 999 else license_info.get("plan", "basic"),
+            "months": license_info.get("months", 1)
         })
 
     except Exception as e:
@@ -185,6 +190,8 @@ def admin_create_license():
         user_id = data.get("user_id", "USER001")
         months = int(data.get("months", 1))
         plan = data.get("plan", "basic")
+        if months >= 999:
+            plan = "lifetime"
         notes = data.get("notes", "")
 
         license_key, expire_date = generate_license_key(user_id, months)
@@ -240,7 +247,7 @@ def admin_list_licenses():
                 "last_check": info.get("last_check", "Chưa dùng"),
                 "hardware_id": info.get("hardware_id", "Chưa kích hoạt"),
                 "first_activation": info.get("first_activation", "Chưa kích hoạt"),
-                "plan": info.get("plan", "basic"),
+                "plan": "lifetime" if info.get("months", 1) >= 999 else info.get("plan", "basic"),
                 "status": info.get("status", "active"),
                 "months": info.get("months", 1),
                 "notes": info.get("notes", ""),
@@ -385,6 +392,8 @@ def admin_bulk_create():
         count = min(int(data.get("count", 5)), 50)
         plan = data.get("plan", "basic")
         months = int(data.get("months", 1))
+        if months >= 999:
+            plan = "lifetime"
 
         licenses, sha = load_licenses()
         created_keys = []

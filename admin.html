@@ -5,86 +5,218 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gaulmt - Admin License Manager</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #121212;
-            --surface-dark: #1e1e1e;
             --primary: #8b5cf6;
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
+            --primary-gradient: linear-gradient(135deg, #818cf8, #c084fc, #f472b6);
+            --glass-bg: rgba(255, 255, 255, 0.08); /* Tăng độ sáng mặt kính */
+            --glass-border: rgba(255, 255, 255, 0.15); /* Viền kính nổi bật hơn */
+            --glass-blur: blur(24px); /* Làm mờ mạnh hơn */
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1; /* Sáng hơn để dễ đọc */
         }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Nền Gradient V2 - Nổi bật hiệu ứng Blur */
         body {
-            background-color: var(--bg-dark);
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.25), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.25), transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(56, 189, 248, 0.2), transparent 30%),
+                linear-gradient(-45deg, #09090b, #17172a, #1e1b4b, #0f172a);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 400% 400%;
+            animation: gradientBG 20s ease infinite;
             color: var(--text-main);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        .card {
-            background-color: var(--surface-dark);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-main);
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
         }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255,255,255,0.25); /* Ánh sáng hắt cạch trên */
+            border-left: 1px solid rgba(255,255,255,0.15); /* Ánh sáng hắt cạnh trái */
+            border-radius: 20px;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5); /* Bóng đổ xịn xò */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        
+        .stat-card h5 {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .stat-card h2 {
+            font-size: 2rem; /* Thu nhỏ text bớt chiếm chỗ */
+            margin: 0;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-card h2.text-success { background: linear-gradient(135deg, #10b981, #34d399); -webkit-background-clip: text; background-clip: text; }
+        .stat-card h2.text-warning { background: linear-gradient(135deg, #f59e0b, #fbbf24); -webkit-background-clip: text; background-clip: text; }
+        .stat-card h2.text-danger { background: linear-gradient(135deg, #f43f5e, #fb7185); -webkit-background-clip: text; background-clip: text; }
+
+        /* Form Elements */
         .form-control, .form-select {
-            background-color: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
+            background-color: rgba(0,0,0,0.2) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: white !important;
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
         }
+
         .form-control:focus, .form-select:focus {
-            background-color: rgba(255,255,255,0.1);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+            background-color: rgba(0,0,0,0.4) !important;
+            border-color: #a855f7 !important;
+            box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.1) !important;
         }
-        .form-control::placeholder { color: var(--text-muted); }
+        
+        .form-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 12px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #059669, #10b981);
+            border: none;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
         .table {
             color: var(--text-main);
-            border-color: rgba(255,255,255,0.1);
+            margin-bottom: 0;
+            font-size: 0.9rem; /* Giảm size chữ trong bảng */
         }
-        .table th { border-bottom: 2px solid rgba(255,255,255,0.1); color: var(--text-muted); font-weight: 500;}
-        .table td { border-color: rgba(255,255,255,0.1); vertical-align: middle; }
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
+        
+        .table th {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            padding: 1.2rem 1rem;
+            background: transparent;
         }
-        .btn-primary:hover {
-            background-color: #7c3aed;
-            border-color: #7c3aed;
+        
+        .table td {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            vertical-align: middle;
+            padding: 1rem;
+            background: transparent;
         }
-        .badge-active { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-        .badge-expired { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-        .badge-revoked { background: rgba(100, 116, 139, 0.2); color: #94a3b8; }
+        
+        .table tbody tr { transition: background 0.2s ease; }
+        .table tbody tr:hover { background: rgba(255,255,255,0.06); }
+
+        /* Badges - Fix mờ, nổi bật tag lên */
+        .badge { padding: 0.5em 0.8em; border-radius: 8px; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px; opacity: 1; }
+        .badge-active { background: rgba(16, 185, 129, 0.3) !important; color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.5); }
+        .badge-expired { background: rgba(244, 63, 94, 0.3) !important; color: #fda4af; border: 1px solid rgba(251, 113, 133, 0.5); }
+        .badge-revoked { background: rgba(148, 163, 184, 0.3) !important; color: #cbd5e1; border: 1px solid rgba(203, 213, 225, 0.5); }
+        .badge-pending { background: rgba(245, 158, 11, 0.3) !important; color: #fcd34d; border: 1px solid rgba(251, 191, 36, 0.5); }
+
+        /* Screens & Modals */
         #login-screen {
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
         }
+        
         .modal-content {
-            background-color: var(--surface-dark);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(30, 27, 75, 0.9);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
             color: var(--text-main);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
-        .modal-header { border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .modal-footer { border-top: 1px solid rgba(255,255,255,0.1); }
-        .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
+        
+        .modal-header { border-bottom: 1px solid var(--glass-border); border-top-left-radius: 24px; border-top-right-radius: 24px; }
+        .modal-footer { border-top: 1px solid var(--glass-border); border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; }
+        .btn-close { filter: invert(1) brightness(200%); opacity: 0.5; }
+        
+        .navbar-brand { background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body>
 
     <!-- Màn hình Đăng nhập -->
     <div id="login-screen">
-        <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
+        <div class="glass-card p-5" style="width: 100%; max-width: 420px;">
             <div class="text-center mb-4">
                 <h3 style="color: var(--primary); font-weight: bold;">Gaulmt Admin</h3>
                 <p class="text-muted">Quản lý License Server Vercel</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">Vercel URL (API Endpoint)</label>
-                <input type="text" id="api-url" class="form-control" value="https://tool-tele.vercel.app" placeholder="https://...">
+                <input type="text" id="api-url" class="form-control" value="https://tool-spam-tele-gaulmt.vercel.app" placeholder="https://...">
             </div>
             <div class="mb-4">
                 <label class="form-label">Admin Secret Key</label>
-                <input type="password" id="admin-key" class="form-control" placeholder="Nhập admin key..." value="GAULMT_ADMIN_2026_SECRET">
+                <input type="password" id="admin-key" class="form-control" placeholder="Nhập admin key..." value="gaulmt-admin-2024">
             </div>
             <button class="btn btn-primary w-100" onclick="login()">Đăng Nhập</button>
             <div id="login-error" class="text-danger mt-3 text-center" style="display: none;"></div>
@@ -93,49 +225,56 @@
 
     <!-- Màn hình Quản trị -->
     <div id="dashboard-screen" style="display: none;">
-        <nav class="navbar navbar-dark mb-4" style="background-color: var(--surface-dark); border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <nav class="navbar navbar-dark mb-4 py-3 glass-card" style="border-radius: 0; border-top: none; border-left: none; border-right: none;">
             <div class="container-fluid px-4">
-                <span class="navbar-brand mb-0 h1" style="color: var(--primary); font-weight: bold;">Gaulmt License Manager</span>
-                <div>
-                    <span id="nav-url" class="text-muted me-3 fs-7"></span>
-                    <button class="btn btn-sm btn-outline-danger" onclick="logout()">Đăng xuất</button>
+                <span class="navbar-brand mb-0 h2 fs-4">Gaulmt License Manager</span>
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center me-4 px-3 py-1 rounded-pill" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                        <span class="text-success me-2" style="font-size: 10px;">●</span>
+                        <span id="nav-url" class="text-muted" style="font-size: 13px; font-family: monospace;"></span>
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger" style="border-radius: 8px;" onclick="logout()">Đăng xuất</button>
                 </div>
             </div>
         </nav>
 
-        <div class="container-fluid px-4">
+        <div class="container-fluid px-4 pb-5">
             <!-- Thống kê -->
-            <div class="row mb-4">
-                <div class="col-md-3"><div class="card p-3 text-center"><h5>Tổng Key</h5><h2 id="stat-total">0</h2></div></div>
-                <div class="col-md-3"><div class="card p-3 text-center"><h5>Đang Kích Hoạt</h5><h2 id="stat-active" class="text-success">0</h2></div></div>
-                <div class="col-md-3"><div class="card p-3 text-center"><h5>Chờ Kích Hoạt</h5><h2 id="stat-pending" class="text-warning">0</h2></div></div>
-                <div class="col-md-3"><div class="card p-3 text-center"><h5>Thu Hồi/Hết Hạn</h5><h2 id="stat-expired" class="text-danger">0</h2></div></div>
+            <div class="row mb-4 g-4">
+                <div class="col-md-3"><div class="glass-card stat-card"><h5>Tổng số Key</h5><h2 id="stat-total">0</h2></div></div>
+                <div class="col-md-3"><div class="glass-card stat-card"><h5>Đang hoạt động</h5><h2 id="stat-active" class="text-success">0</h2></div></div>
+                <div class="col-md-3"><div class="glass-card stat-card"><h5>Chờ kích hoạt</h5><h2 id="stat-pending" class="text-warning">0</h2></div></div>
+                <div class="col-md-3"><div class="glass-card stat-card"><h5>Thu Hồi/Hết Hạn</h5><h2 id="stat-expired" class="text-danger">0</h2></div></div>
             </div>
 
             <!-- Toolbar -->
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4>Danh sách Bản quyền</h4>
+                <h4 class="mb-0" style="font-family: 'Outfit', sans-serif; font-size: 1.25rem;">Danh sách Bản quyền</h4>
                 <div>
-                    <button class="btn btn-success me-2" onclick="refreshData()">🔄 Bấm để Load lại</button>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">➕ Tạo Key Mới</button>
+                    <button class="btn btn-success me-2" onclick="refreshData()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise me-1" viewBox="0 0 16 16" style="margin-top:-2px;"><path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/></svg> Làm mới
+                    </button>
+                    <button class="btn btn-primary shadow-lg" data-bs-toggle="modal" data-bs-target="#createModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus-lg me-1" viewBox="0 0 16 16" style="margin-top:-2px;"><path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/></svg> Tạo Key Mới
+                    </button>
                 </div>
             </div>
 
             <!-- Bảng dữ liệu -->
-            <div class="card p-0 overflow-hidden">
+            <div class="glass-card overflow-hidden">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead style="background: rgba(0,0,0,0.2);">
+                    <table class="table table-borderless mb-0">
+                        <thead style="background: rgba(255,255,255,0.05); text-shadow: 1px 1px 0px rgba(0,0,0,0.5);">
                             <tr>
-                                <th>License Key</th>
-                                <th>Người dùng (Ghi chú)</th>
+                                <th style="padding-left: 1.5rem;">License Key</th>
+                                <th>Khách hàng</th>
                                 <th>Thời hạn</th>
                                 <th>Trạng thái</th>
-                                <th>Hành động</th>
+                                <th class="text-end" style="padding-right: 1.5rem;">Hành động</th>
                             </tr>
                         </thead>
                         <tbody id="license-table-body">
-                            <tr><td colspan="5" class="text-center py-4">Đang tải dữ liệu...</td></tr>
+                            <tr><td colspan="5" class="text-center py-5 text-muted">Đang tải dữ liệu...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -250,15 +389,17 @@
                     tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">Chưa có License nào trong hệ thống.</td></tr>';
                 }
 
-                // Sort by creation date or just loop
+                // Lặp qua danh sách và ẩn đi các key đã Thu Hồi (revoked) 
                 listRes.licenses.forEach(lic => {
-                    let statusBadge = '';
                     if (lic.status === 'revoked') {
-                        statusBadge = '<span class="badge badge-revoked">Bị thu hồi</span>';
-                    } else if (lic.days_left < 0) {
+                        return; // Ẩn hoàn toàn khỏi giao diện
+                     }
+
+                    let statusBadge = '';
+                    if (lic.days_left < 0) {
                         statusBadge = '<span class="badge badge-expired">Hết hạn</span>';
                     } else if (lic.hardware_id === 'Chưa kích hoạt') {
-                        statusBadge = '<span class="badge bg-warning text-dark">Chờ kích hoạt</span>';
+                        statusBadge = '<span class="badge badge-pending">Chờ kích hoạt</span>';
                     } else {
                         statusBadge = '<span class="badge badge-active">Đang hoạt động</span>';
                     }
@@ -267,26 +408,23 @@
                     
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td>
+                        <td style="padding-left: 1.5rem;">
                             <div class="d-flex align-items-center gap-2">
-                                <code class="text-primary bg-dark px-2 py-1 rounded" style="font-size: 14px;">${lic.license_key}</code>
-                                <button class="btn btn-sm btn-outline-secondary py-0 px-1" title="Copy" onclick="navigator.clipboard.writeText('${lic.license_key}')">📋</button>
+                                <code class="text-primary px-2 py-1 rounded" style="background: rgba(139, 92, 246, 0.1); font-size: 13px; letter-spacing: 0.5px; border: 1px solid rgba(139, 92, 246, 0.2);">${lic.license_key}</code>
+                                <button class="btn btn-sm py-0 px-2 text-muted hover-primary" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);" title="Copy" onclick="navigator.clipboard.writeText('${lic.license_key}')"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/></svg></button>
                             </div>
                         </td>
                         <td>
-                            <div class="fw-bold">${lic.user_id}</div>
-                            <small class="text-muted">${subtext}</small>
+                            <div class="fw-bold" style="color: #f1f5f9;">${lic.user_id}</div>
+                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">${subtext}</div>
                         </td>
                         <td>
-                            <div>${lic.expire_date}</div>
-                            <small class="${lic.days_left > 0 ? 'text-success' : 'text-danger'}">${lic.days_left > 0 ? `Còn ${lic.days_left} ngày` : 'Đã hết hạn'}</small>
+                            <div style="font-weight: 500;">${lic.expire_date}</div>
+                            <div style="font-size: 12px; margin-top: 2px;" class="${lic.days_left > 0 ? 'text-success' : 'text-danger'}">${lic.days_left > 0 ? `Còn ${lic.days_left} ngày` : 'Đã hết hạn'}</div>
                         </td>
                         <td>${statusBadge}</td>
-                        <td>
-                            ${lic.status !== 'revoked' ? 
-                                `<button class="btn btn-sm btn-outline-danger" onclick="revokeKey('${lic.license_key}')">Thu hồi mã</button>` : 
-                                `<button class="btn btn-sm btn-secondary disabled">Đã thu hồi</button>`
-                            }
+                        <td class="text-end" style="padding-right: 1.5rem;">
+                            <button class="btn btn-sm btn-outline-danger" style="font-size: 12px; padding: 0.3rem 0.8rem;" onclick="revokeKey('${lic.license_key}')">Thu hồi mã</button>
                         </td>
                     `;
                     tbody.appendChild(tr);
