@@ -108,11 +108,13 @@
     "user_id": "áds",
     "expire_date": "2108-04-27",
     "created_date": "2026-04-07 19:13:45",
-    "last_check": null,
+    "last_check": "2026-04-07 19:14:17",
     "months": 999,
     "plan": "lifetime",
     "status": "active",
     "check_count": 0,
-    "notes": "áds"
+    "notes": "áds",
+    "hardware_id": "4FB084A9-15CB-11F0-A4F8-40C2BAB04382",
+    "first_activation": "2026-04-07 19:14:17"
   }
 }
