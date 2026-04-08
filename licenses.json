@@ -155,5 +155,16 @@
     "notes": "meo_meo",
     "hardware_id": "4FB084A9-15CB-11F0-A4F8-40C2BAB04382",
     "first_activation": "2026-04-08 07:31:12"
+  },
+  "ádd_597ed134ac92d036": {
+    "user_id": "ádd",
+    "expire_date": "2027-04-03",
+    "created_date": "2026-04-08 10:15:57",
+    "last_check": null,
+    "months": 12,
+    "plan": "basic",
+    "status": "active",
+    "check_count": 0,
+    "notes": "ádd"
   }
 }
