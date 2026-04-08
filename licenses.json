@@ -147,11 +147,13 @@
     "user_id": "meo_meo",
     "expire_date": "2108-04-28",
     "created_date": "2026-04-08 07:31:06",
-    "last_check": null,
+    "last_check": "2026-04-08 07:31:12",
     "months": 999,
     "plan": "lifetime",
     "status": "active",
     "check_count": 0,
-    "notes": "meo_meo"
+    "notes": "meo_meo",
+    "hardware_id": "4FB084A9-15CB-11F0-A4F8-40C2BAB04382",
+    "first_activation": "2026-04-08 07:31:12"
   }
 }
