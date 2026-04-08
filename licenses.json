@@ -168,5 +168,16 @@
     "notes": "ádd",
     "hardware_id": "4FB084A9-15CB-11F0-A4F8-40C2BAB04382",
     "first_activation": "2026-04-08 10:16:06"
+  },
+  "ad_e6afab30e7621f1d": {
+    "user_id": "ad",
+    "expire_date": "2108-04-28",
+    "created_date": "2026-04-08 10:21:07",
+    "last_check": null,
+    "months": 999,
+    "plan": "lifetime",
+    "status": "active",
+    "check_count": 0,
+    "notes": "ad"
   }
 }
